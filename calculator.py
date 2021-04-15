@@ -31,10 +31,13 @@ for i in range(0,number):
             rh.append(round(float(input('RH at time of max temp: ')),0))
             if rh[i]<13 and 80<=max_temp[i]<=112:
                 heatindex.append(int(round((-42.379+2.04901523*max_temp[i]+10.14333127*rh[i]-0.22475541*max_temp[i]*rh[i]-0.00683783*max_temp[i]**2-0.05481717*rh[i]**2+0.00122874*max_temp[i]**2*rh[i]+0.00085282*max_temp[i]*rh[i]**2-0.00000199*max_temp[i]**2*rh[i]**2)-(((13-rh[i])/4)*sqrt((17-abs(max_temp[i]-95))/17)),0)))
+                print('Heat index: ''{}'.format(heatindex[i]))
             elif rh[i]>85 and 80<=max_temp[i]<=87:
                 heatindex.append(int(round((-42.379+2.04901523*max_temp[i]+10.14333127*rh[i]-0.22475541*max_temp[i]*rh[i]-0.00683783*max_temp[i]**2-0.05481717*rh[i]**2+0.00122874*max_temp[i]**2*rh[i]+0.00085282*max_temp[i]*rh[i]**2-0.00000199*max_temp[i]**2*rh[i]**2)+(((rh[i]-85)/10)*((87-max_temp[i])/5)),0)))
+                print('Heat index: ''{}'.format(heatindex[i]))
             else:
                 heatindex.append(int(round(-42.379+2.04901523*max_temp[i]+10.14333127*rh[i]-0.22475541*max_temp[i]*rh[i]-0.00683783*max_temp[i]**2-0.05481717*rh[i]**2+0.00122874*max_temp[i]**2*rh[i]+0.00085282*max_temp[i]*rh[i]**2-0.00000199*max_temp[i]**2*rh[i]**2,0)))
+                print('Heat index: ''{}'.format(heatindex[i]))
         else:
             rh.append(0)
             heatindex.append(round(float(input('Heat index: ')),0))
@@ -47,6 +50,7 @@ for i in range(0,number):
         if windchill_input=='yes' or windchill_input=='y':
             chill_gust.append(round(float(input('Gust at time of low temp: ')),0))
             windchill.append(int(round(35.74+(0.6215*min_temp[i])-(35.75*chill_gust[i]**0.16)+(0.4275*min_temp[i]*chill_gust[i]**0.16),0)))
+            print('Windchill: ''{}'.format(windchill[i]))
         else:
             windchill.append(round(float(input('Wind chill: ')),0))
             chill_gust.append(0)
