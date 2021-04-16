@@ -64,7 +64,7 @@ for i in range(0,number):
 for i in range (0,number):
     avtemp=(max_temp[i]+min_temp[i])/2
     if avtemp<65:
-        dd=65-round(avtemp,0)
+        dd=65-math.ceil(avtemp)
         hdd_points.append(int(dd))
         cdd_points.append(0)
     elif avtemp>65:
