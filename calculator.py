@@ -1,8 +1,34 @@
 #!/usr/bin/python
 import math
-#input number of locations
-number=int(input('How many locations do you need scores for? '))
-bonuses=input('Do you want scores with multiplier bonuses? ').casefold()
+def inputNumber(message):
+    while True:
+        try:
+            userInput=int(input(message))
+        except ValueError:
+            print('Please enter a whole number.')
+            continue
+        else:
+            return userInput
+            break
+def inputFloat(message):
+    while True:
+        try:
+            userInput=float(input(message))
+        except ValueError:
+            print('Please enter a number.')
+            continue
+        else:
+            return userInput
+            break
+def inputString(message):
+    userInput=input(message).casefold()
+    while userInput not in ['yes','y','no','n']:
+        print("That was not a valid option, please enter 'yes' or 'no'")
+        userInput=input(message).casefold()
+    else:
+        return userInput
+number=inputNumber('How many locations do you need scores for? ')
+bonuses=inputString('Do you want scores with multiplier bonuses? ')
 #store points
 location=[]
 max_temp=[]
@@ -28,11 +54,11 @@ point_total=[]
 #input data
 for i in range(0,number):
     location.append(input('Please enter location ''{}'': '.format(i+1)))
-    max_temp.append(round(float(input('Max temp: ')),0))
+    max_temp.append(round(inputFloat('Max temp: '),0))
     if max_temp[i]>=80:
-        heatindex_input=input('Do you need heat index to be calculated? ').casefold()
+        heatindex_input=inputString('Do you need heat index to be calculated? ')
         if heatindex_input=='yes' or heatindex_input=='y':
-            rh.append(round(float(input('RH at time of max temp: ')),0))
+            rh.append(round(inputFloat('RH at time of max temp: '),0))
             if rh[i]<13 and 80<=max_temp[i]<=112:
                 heatindex.append(int(round((-42.379+2.04901523*max_temp[i]+10.14333127*rh[i]-0.22475541*max_temp[i]*rh[i]-0.00683783*max_temp[i]**2-0.05481717*rh[i]**2+0.00122874*max_temp[i]**2*rh[i]+0.00085282*max_temp[i]*rh[i]**2-0.00000199*max_temp[i]**2*rh[i]**2)-(((13-rh[i])/4)*math.sqrt((17-abs(max_temp[i]-95))/17)),0)))
                 print('Heat index: ''{}'.format(heatindex[i]))
@@ -44,28 +70,28 @@ for i in range(0,number):
                 print('Heat index: ''{}'.format(heatindex[i]))
         else:
             rh.append(0)
-            heatindex.append(round(float(input('Heat index: ')),0))
+            heatindex.append(round(inputFloat('Heat index: '),0))
     else:
         heatindex.append('None')
         rh.append(0)
-    min_temp.append(round(float(input('Min temp: ')),0))
+    min_temp.append(round(inputFloat('Min temp: '),0))
     if min_temp[i]<=40:
-        windchill_input=input('Do you need windchill to be calculated? ').casefold()
+        windchill_input=inputString('Do you need windchill to be calculated? ')
         if windchill_input=='yes' or windchill_input=='y':
-            chill_gust.append(round(float(input('Gust at time of low temp: ')),0))
+            chill_gust.append(round(inputFloat('Gust at time of low temp: '),0))
             windchill.append(int(round(35.74+(0.6215*min_temp[i])-(35.75*chill_gust[i]**0.16)+(0.4275*min_temp[i]*chill_gust[i]**0.16),0)))
             print('Windchill: ''{}'.format(windchill[i]))
         else:
-            windchill.append(round(float(input('Wind chill: ')),0))
+            windchill.append(round(inputFloat('Wind chill: '),0))
             chill_gust.append(0)
     else:
         windchill.append('None')
         chill_gust.append(0)
-    wind_gust.append(round(float(input('Max wind gust: ')),0))
-    rain.append(float(input('Rainfall: ')))
-    snow.append(float(input('Snowfall: ')))
+    wind_gust.append(round(inputFloat('Max wind gust: '),0))
+    rain.append(round(inputFloat('Rainfall: '),2))
+    snow.append(round(inputFloat('Snowfall: '),1))
     if bonuses=='yes' or bonuses=='y':
-        bonus_days.append(int(input('How many days out is the pick? ')))
+        bonus_days.append(inputNumber('How many days out is the pick? '))
     else:
         bonus_days.append('None')
 #calculate DD values
@@ -94,7 +120,7 @@ for i in range (0,number):
 #calculate chill and heat index points
     if windchill[i]!='None':
         if windchill[i]<=40:
-           windchill_points.append(40-windchill[i])
+           windchill_points.append(int(40-windchill[i]))
         else:
             windchill_points.append(0)
     else:
