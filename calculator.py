@@ -2,6 +2,7 @@
 import math
 #input number of locations
 number=int(input('How many locations do you need scores for? '))
+bonuses=input('Do you want scores with multiplier bonuses? ').casefold()
 #store points
 location=[]
 max_temp=[]
@@ -13,6 +14,7 @@ windchill=[]
 wind_gust=[]
 rain=[]
 snow=[]
+bonus_days=[]
 cdd_points=[]
 hdd_points=[]
 windchill_points=[]
@@ -20,6 +22,8 @@ heatindex_points=[]
 wind_points=[]
 rain_points=[]
 snow_points=[]
+raw_score=[]
+multiplier=[]
 point_total=[]
 #input data
 for i in range(0,number):
@@ -60,6 +64,10 @@ for i in range(0,number):
     wind_gust.append(round(float(input('Max wind gust: ')),0))
     rain.append(float(input('Rainfall: ')))
     snow.append(float(input('Snowfall: ')))
+    if bonuses=='yes' or bonuses=='y':
+        bonus_days.append(int(input('How many days out is the pick? ')))
+    else:
+        bonus_days.append('None')
 #calculate DD values
 for i in range (0,number):
     avtemp=(max_temp[i]+min_temp[i])/2
@@ -98,9 +106,51 @@ for i in range (0,number):
            heatindex_points.append(0)
     else:
         heatindex_points.append(0)
+#calculate raw score
+    raw_score.append(int(hdd_points[i]+cdd_points[i]+wind_points[i]+rain_points[i]+snow_points[i]+windchill_points[i]+heatindex_points[i]))
+#calculate multiplier bonus
+    if bonuses=='yes' or bonuses=='y':
+        if raw_score[i]<100 or bonus_days[i]==1:
+            multiplier.append(1)
+        elif 100<=raw_score[i]<=149:
+            if bonus_days[i]==2:
+                multiplier.append(1.1)
+            elif bonus_days[i]==3:
+                multiplier.append(1.2)
+            elif bonus_days[i]==4:
+                multiplier.append(1.3)
+            elif bonus_days[i]==5:
+                multiplier.append(1.4)
+            elif bonus_days[i]>=6:
+                multiplier.append(1.5)
+        elif 150<=raw_score[i]<=199:
+            if bonus_days[i]==2:
+                multiplier.append(1.15)
+            elif bonus_days[i]==3:
+                multiplier.append(1.3)
+            elif bonus_days[i]==4:
+                multiplier.append(1.45)
+            elif bonus_days[i]==5:
+                multiplier.append(1.6)
+            elif bonus_days[i]>=6:
+                multiplier.append(1.75)
+        else:
+            if bonus_days[i]==2:
+                multiplier.append(1.2)
+            elif bonus_days[i]==3:
+                multiplier.append(1.4)
+            elif bonus_days[i]==4:
+                multiplier.append(1.6)
+            elif bonus_days[i]==5:
+                multiplier.append(1.8)
+            elif bonus_days[i]>=6:
+                multiplier.append(2)
+    else:
+        multiplier.append(1)
 #calculate score
-    point_total.append(int(hdd_points[i]+cdd_points[i]+wind_points[i]+rain_points[i]+snow_points[i]+windchill_points[i]+heatindex_points[i]))
+    point_total.append(int(raw_score[i]*multiplier[i]))
 #print scores
+    print()
     print('Score for ''{}'.format(location[i]))
     if cdd_points[i]!=0:
         print('CDD Points: ''{}'.format(cdd_points[i]))
@@ -115,4 +165,7 @@ for i in range (0,number):
         print('Rain points: ''{}'.format(rain_points[i]))
     if snow_points[i]!=0:
         print('Snow points: ''{}'.format(snow_points[i]))
-    print('Total score: ''{}''\n'.format(point_total[i]))
+    if raw_score[i]!=point_total[i]:
+        print('Multiplier: ''{}''\n''Raw score: ''{}''\n''Total score: ''{}'.format(multiplier[i],raw_score[i],point_total[i]))
+    else:
+        print('Total score: ''{}'.format(point_total[i]))
