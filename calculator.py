@@ -6,20 +6,16 @@ def inputNumber(message):
             userInput=int(input(message))
         except ValueError:
             print('Please enter a whole number.')
-            continue
         else:
             return userInput
-            break
 def inputFloat(message):
     while True:
         try:
             userInput=float(input(message))
         except ValueError:
             print('Please enter a number.')
-            continue
         else:
             return userInput
-            break
 def inputString(message):
     userInput=input(message).casefold()
     while userInput not in ['yes','y','no','n']:
