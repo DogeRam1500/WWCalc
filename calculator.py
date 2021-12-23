@@ -74,7 +74,7 @@ for i in range(0,number):
     if min_temp[i]<=40:
         windchill_input=inputString('Do you need windchill to be calculated? ')
         if windchill_input=='yes' or windchill_input=='y':
-            chill_gust.append(round(inputFloat('Gust at time of low temp: '),0))
+            chill_gust.append(round(inputFloat('Wind speed at time of low temp: '),0))
             windchill.append(int(round(35.74+(0.6215*min_temp[i])-(35.75*chill_gust[i]**0.16)+(0.4275*min_temp[i]*chill_gust[i]**0.16),0)))
             print('Windchill: ''{}'.format(windchill[i]))
         else:
